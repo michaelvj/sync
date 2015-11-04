@@ -1,1 +1,15 @@
-app/storage
+/bootstrap/compiled.php
+/app/storage/
+/vendor
+/public/storage
+composer.phar
+composer.lock
+.env.*.php
+.env.php
+.DS_Store
+Thumbs.db
+.idea/
+
+# Vim swap files
+.*.swp
+.*.swo
