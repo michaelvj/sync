@@ -1,0 +1,21 @@
+
+<?php $__env->startSection('title'); ?>
+    <?php echo isset($title) ? $title : ""; ?>
+<?php $__env->stopSection(); ?>
+
+<?php $__env->startSection('content'); ?>
+<div class="row">
+    <div class="col-md-8">
+        <?php echo $__env->make('partials.front.featured', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+    </div>
+
+    <div class="col-md-4">
+        <?php echo $__env->make('partials.front.weather', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+    </div>
+</div>
+
+<div id="posts" class="row items">
+    <?php echo $__env->make('partials.front.posts', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+</div>
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('front.main', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

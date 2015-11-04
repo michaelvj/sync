@@ -1,0 +1,20 @@
+<table class="table">
+    <thead>
+        <tr>
+            <th>Voornaam</th>
+            <th>Achternaam</th>
+            <th>Email</th>
+            <th>Groep</th>
+        </tr>
+    </thead>
+    <tbody>
+        <?php foreach($users as $item): ?>
+            <tr>
+                <td><?php echo e($item->firstname); ?></td>
+                <td><?php echo e($item->lastname); ?></td>
+                <td><?php echo e($item->email); ?></td>
+                <td><?php echo $item->group->name; ?></td>
+            </tr>
+        <?php endforeach; ?>
+    </tbody>
+</table>

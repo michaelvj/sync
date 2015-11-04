@@ -1,0 +1,105 @@
+<?php $__env->startSection('script'); ?>
+@parent
+<script type="text/javascript">
+    var checkedCalls = [];
+    var uncheckedCalls = [];
+    $("[name='calls[]']").click(function() {
+        if($(this).is(":checked")) {
+            if (checkedCalls.indexOf($(this).val()) == -1) {
+                checkedCalls.push($(this).val());
+            }
+            if (uncheckedCalls.indexOf($(this).val()) != -1) {
+                uncheckedCalls.splice(uncheckedCalls.indexOf($(this).val()), 1)
+            }
+        } else {
+            if (uncheckedCalls.indexOf($(this).val()) == -1) {
+                uncheckedCalls.push($(this).val());
+            }
+            if (checkedCalls.indexOf($(this).val()) != -1) {
+                checkedCalls.splice(checkedCalls.indexOf($(this).val()), 1)
+            }
+        }
+        $("[name='checkedCalls']").val(checkedCalls.join());
+        $("[name='uncheckedCalls']").val(uncheckedCalls.join());
+    });
+</script>
+<?php $__env->stopSection(); ?>
+<?php echo Form::open(array(
+    'route' => 'admin.calls.screen'
+)); ?>
+<?php echo Form::hidden('checkedCalls'); ?>
+<?php echo Form::hidden('uncheckedCalls'); ?>
+
+<table class="table">
+    <thead>
+    <tr>
+        <th class="text-center">
+            <input class="toggle-all" type="checkbox" />
+        </th>
+        <th>Titel</th>
+        <th>Auteur</th>
+        <th>Geplaatst op</th>
+        <th>Bijgewerkt op</th>
+        <th>Verloopt op</th>
+        <th>&nbsp;</th>
+    </tr>
+    </thead>
+    <tbody>
+    <?php foreach($news as $item): ?>
+    <?php if($item->is_featured): ?>
+    <tr class="info">
+        <?php else: ?>
+    <tr>
+        <?php endif; ?>
+        <td class="text-center">
+            <?php echo Form::checkbox('calls[]', $item->id, $item->is_screen); ?>
+        </td>
+        <td>
+            <?php echo link_to_route('admin.calls.edit', $item->title, array($item->id)); ?>
+        </td>
+        <td>
+            <?php echo e($item->user->firstname); ?>
+            <?php echo e($item->user->lastname); ?>
+        </td>
+        <td>
+            <?php echo $item->created_at->format('H:i, d-m-Y'); ?>
+        </td>
+        <td>
+            <?php if($item->updated_at->gt($item->created_at)): ?>
+                <?php echo $item->updated_at->format('H:i, d-m-Y'); ?>
+            <?php else: ?>
+                Nooit
+            <?php endif; ?>
+        </td>
+        <td>
+            <?php if($item->expires_at === null): ?>
+                Nooit
+            <?php else: ?>
+                <?php echo $item->expires_at->format('H:i, d-m-Y'); ?>
+            <?php endif; ?>
+        </td>
+        <td>
+            <?php if($user->hasAccess('news.update.other') || $user->owns($item)): ?>
+                <?php echo link_to_route('news', 'Bekijken', array($item->id, $item->webTitle)); ?>
+            <?php else: ?>
+                &nbsp;
+            <?php endif; ?>
+        </td>
+    </tr>
+    <?php endforeach; ?>
+    </tbody>
+    <tfoot>
+    <tr>
+        <td class="text-center">
+            <input class="toggle-all" type="checkbox" />
+        </td>
+        <td colspan="7">
+            <?php echo Form::submit('Zet selectie op nieuws-scherm', array(
+            'class' => 'btn btn-primary btn-xs'
+            )); ?>
+        </td>
+    </tr>
+    </tfoot>
+</table>
+
+<?php echo Form::close(); ?>

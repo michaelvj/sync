@@ -1,0 +1,52 @@
+<?php if(count($items) > 0): ?>
+    <?php foreach($items as $item): ?>
+        <section class="col-sm-6 col-md-4 col-lg-3">
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <h3><?php echo link_to_route($item->routeName, $item->title, array($item->id, $item->webTitle), array('title' => $item->title)); ?></h3>
+                    <p class="excerpt">
+                        <?php echo $item->excerpt; ?>
+                    </p>
+                    <?php if($item->is_featured OR $item->category): ?>
+                    <p class="category">
+                        <?php if($item->is_featured): ?>
+                            <span class="glyphicon glyphicon-star" title="Uitgelicht"></span>
+                        <?php endif; ?>
+
+                        <?php if($item->category): ?>
+                            <?php echo link_to_route('categories', $item->category->name, array($item->category->id, $item->category->webTitle)); ?>
+                        <?php endif; ?>
+                    </p>
+                    <?php endif; ?>
+                </div>
+                <div class="panel-footer clearfix">
+                    <?php if ($item->routeName == "workshops"): ?>
+                        <p class="pull-left"><?php echo $item->begins_at->format('H:i, d M'); ?></p>
+                    <?php else: ?>
+                        <p class="pull-left"><?php echo $item->shows_at->format('H:i, d M'); ?></p>
+                    <?php endif; ?>
+                    <?php if(!is_null($item->user)): ?> 
+                        <p class="pull-right">
+                            <?php echo e($item->user->firstname[0]); ?>.
+                            <?php echo e($item->user->lastname); ?>
+                        </p>
+                    <?php endif; ?>
+                </div>
+            </div>
+        </section>
+    <?php endforeach; ?>
+
+    <?php if($items instanceOf \Illuminate\Pagination\Paginator): ?>
+        <div class="col-xs-12 text-center">
+            <?php echo $items->fragment('posts')->links(); ?>
+        </div>
+    <?php endif; ?>
+<?php else: ?>
+    <section class="col-md-12">
+        <div class="panel panel-default no-results">
+            <div class="panel-body">
+                <h3>Geen resultaten</h3>
+            </div>
+        </div>
+    </section>
+<?php endif; ?>

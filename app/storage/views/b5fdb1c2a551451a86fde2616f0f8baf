@@ -1,0 +1,46 @@
+<?php if(count($featured) > 0): ?>
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h2 class="panel-title">
+                Uitgelicht
+            </h2>
+        </div>
+        <div class="list-group screen">
+            <?php foreach($featured as $item): ?>
+                <section class="list-group-item featured">
+                    <div class="pull-left screentime">
+                        <time datetime="<?php echo $item->showdate; ?>" class="text-center pull-left">
+                            <p class="h1"><?php echo $item->showdate->formatLocalized('%d'); ?></p>
+                            <p class="h4"><?php echo $item->showdate->formatLocalized('%B'); ?></p>
+                        </time>
+                        <?php if($item->routeName === 'workshops'): ?>
+                            <span class="glyphicon glyphicon-cog pull-left text-center"></span>
+                        <?php elseif($item->routeName === 'news'): ?>
+                            <span class="glyphicon glyphicon-bullhorn pull-left text-center"></span>
+                        <?php endif; ?>
+                    </div>
+                    
+                    <?php if($item->featured_image && $item->featured_visible): ?>
+                        <div id="carousel-<?php echo $item->id; ?>" class="carousel slide pull-right hidden-xs" data-ride="carousel">
+                            <div>
+                                <div class="item text-center">
+                                    <img src="/assets/uploads/<?php echo $item->featured_image; ?>" />
+                                </div>
+                            </div>
+                        </div>
+                    <?php endif; ?>
+
+
+                    <div class="media-body">
+                        <h1 class="list-group-item-heading ellipsis">
+                            <?php echo link_to_route($item->routeName, $item->title, array($item->id, $item->webTitle)); ?>
+                        </h1>
+                        <p class="list-group-item-text">
+                            <?php echo $item->getExcerptAttribute(40); ?>
+                        </p>
+                    </div>
+                </section>
+            <?php endforeach; ?>
+        </div>
+    </div>
+<?php endif; ?>

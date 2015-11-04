@@ -1,0 +1,35 @@
+
+<?php $__env->startSection('title'); ?>
+    Workshops
+<?php $__env->stopSection(); ?>
+
+<?php $__env->startSection('topnav'); ?>
+    <a href="<?php echo route('admin.workshops.create'); ?>" class="btn btn-default navbar-btn">
+        <span class="glyphicon glyphicon-calendar"></span>
+        Nieuwe workshop
+    </a>
+<?php $__env->stopSection(); ?>
+
+<?php $__env->startSection('content'); ?>
+    <?php $today = new \Carbon\Carbon(); ?>
+
+    <?php echo $__env->make('partials.errors', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <h1>
+                        Laatste workshops
+                    </h1>
+                </div>
+                <div class="table-responsive">
+                    <?php echo $__env->make('partials.back.workshops', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+                </div>
+                <div class="panel-body text-center">
+                    <?php echo $workshops->links(); ?>
+                </div>
+            </div>
+        </div>
+    </div>
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('back.main', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

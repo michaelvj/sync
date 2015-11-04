@@ -1,0 +1,17 @@
+<nav class="list-group">
+    <?php echo HTML::side_nav_link('admin.news.index', 'Nieuws', null, array('class' => 'list-group-item')); ?>
+    <?php echo HTML::side_nav_link('admin.calls.index', 'Oproepen', null, array('class' => 'list-group-item')); ?>
+    <?php echo HTML::side_nav_link('admin.workshops.index', 'Workshops', null, array('class' => 'list-group-item')); ?>
+
+    <?php if($user->hasAccess('user.show')): ?>
+        <?php echo HTML::side_nav_link('admin.users.index', 'Gebruikers', null, array('class' => 'list-group-item')); ?>
+    <?php endif; ?>
+
+    <hr />
+    <a href="<?php echo route('home'); ?>" target="_blank" class="list-group-item">
+        Naar de website
+        <span class="glyphicon glyphicon-new-window"></span>
+    </a>
+
+    <?php echo link_to_route('logout', 'Uitloggen', null, array('class' => 'list-group-item logout')); ?>
+</nav>

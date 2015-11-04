@@ -1,0 +1,136 @@
+
+<?php $__env->startSection('title'); ?>
+    Screen
+<?php $__env->stopSection(); ?>
+
+<?php $__env->startSection('script'); ?>
+    <script type="text/javascript">
+        setInterval(function(){
+            window.location.reload();
+        }, 5 * 60 * 1000);
+        
+        $(document).ready(function () {
+            $('.carousel').carousel({
+                interval: 10000
+            });
+        });
+    </script>
+<?php $__env->stopSection(); ?>
+
+<?php $__env->startSection('content'); ?>
+    <div class="row">
+        <div class="col-md-8">
+            <?php echo $__env->make('partials.front.featured', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+        </div>
+
+        <div class="col-md-4">
+            <?php echo $__env->make('partials.front.weather', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+        </div>
+    </div>
+    <div class="row">
+        <div id="ws-carousel" class="col-md-4 carousel slide">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h2 class="panel-title">
+                        <span class="glyphicon glyphicon-cog pull-left">&nbsp;</span>
+                        Workshops
+                        <?php if(ceil(count($workshops) / 3) > 1): ?>
+                            <ol class="carousel-indicators pull-right">
+                                <?php for($i = 0; $i < (ceil(count($workshops) / 3)); $i++): ?>
+                                    <?php if($i === 0): ?>
+                                        <li data-target="#ws-carousel" class="active" data-slide-to="<?php echo $i; ?>"></li>
+                                    <?php else: ?>
+                                        <li data-target="#ws-carousel" data-slide-to="<?php echo $i; ?>"></li>
+                                    <?php endif; ?>
+                                <?php endfor; ?>
+                            </ol>
+                        <?php endif; ?>
+                    </h2>
+                </div>
+
+                <div class="carousel-inner">
+                    <?php for($i = 1; $i <= (ceil(count($workshops) / 3)); $i++): ?>
+                        <?php if($i === 1): ?>
+                            <div class="item active">
+                        <?php else: ?>
+                            <div class="item">
+                        <?php endif; ?>
+                            <?php for($x = 0; $x < 3; $x++): ?>
+                                <?php if(isset($workshops[$x * $i])): ?>
+                                    <?php $item = $workshops[$x * $i]; ?>
+                                    <section class="list-group-item">
+                                        <h1 class="list-group-item-heading ellipsis">
+                                            <?php echo link_to_route('workshops', $item->title, array($item->id, $item->webTitle)); ?>
+                                        </h1>
+                                        <img class="pull-right" src="http://chart.googleapis.com/chart?cht=qr&chs=100&choe=UTF-8&chld=H&chl=<?php echo url('workshops', $item->id); ?>" alt="QR link"/>
+                                        <div class="media-body screen-excerpt">
+                                            <p>
+                                                <?php echo $item->excerpt; ?>
+                                            </p>
+                                        </div>
+                                    </section>
+                                <?php elseif($i !== 1): ?>
+                                    <section class="list-group-item">
+                                        <h1 class="list-group-item-heading">&nbsp;</h1>
+                                        <div class="screen-excerpt"></div>
+                                    </section>
+                                <?php endif; ?>
+                            <?php endfor; ?>
+                        </div>
+                    <?php endfor; ?>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h2 class="panel-title">
+                        <span class="glyphicon glyphicon-warning-sign pull-left">&nbsp;</span>
+                        Oproepen
+                    </h2>
+                </div>
+                <div class="list-group">
+                    <?php foreach($notes as $item): ?>
+                        <section class="list-group-item">
+                            <h1 class="list-group-item-heading ellipsis">
+                                <?php echo link_to_route('news', $item->title, array($item->id, $item->webTitle)); ?>
+                            </h1>
+                            <img class="pull-right" src="http://chart.googleapis.com/chart?cht=qr&chs=100&choe=UTF-8&chld=H&chl=<?php echo url('news', $item->id); ?>" alt="QR link"/>
+                            <div class="media-body screen-excerpt">
+                                <p>
+                                    <?php echo $item->excerpt; ?>
+                                </p>
+                            </div>
+                        </section>
+                    <?php endforeach; ?>
+                </div> 
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h2 class="panel-title">
+                        <span class="glyphicon glyphicon-bullhorn pull-left">&nbsp;</span>
+                        Nieuws
+                    </h2>
+                </div>
+                <div class="list-group">
+                    <?php foreach($news as $item): ?>
+                        <section class="list-group-item">
+                            <h1 class="list-group-item-heading ellipsis">
+                                <?php echo link_to_route('news', $item->title, array($item->id, $item->webTitle)); ?>
+                            </h1>
+                            <img class="pull-right" src="http://chart.googleapis.com/chart?cht=qr&chs=100&choe=UTF-8&chld=H&chl=<?php echo url('news', $item->id); ?>" alt="QR link"/>
+                            <div class="media-body screen-excerpt">
+                                <p>
+                                    <?php echo $item->excerpt; ?>
+                                </p>
+                            </div>
+                        </section>
+                    <?php endforeach; ?>
+                </div>
+            </div>
+        </div>
+    </div>
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('front.main', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

@@ -1,0 +1,58 @@
+
+<?php $__env->startSection('title'); ?>
+    Inschrijvingen voor <?php echo e($workshop->title); ?>
+<?php $__env->stopSection(); ?>
+
+<?php $__env->startSection('topnav'); ?>
+    <div class="btn-group">
+        <button type="submit" class="btn btn-danger navbar-btn remote-submit">
+            <span class="glyphicon glyphicon-trash"></span>
+            Selectie verwijderen
+        </button>
+    </div>
+<?php $__env->stopSection(); ?>
+
+<?php $__env->startSection('content'); ?>
+    <div class="row">
+        <div class="col-xs-12">
+            <ul class="nav nav-tabs">
+                <li>
+                    <?php echo link_to_route('admin.workshops.edit', 'Workshop', array($workshop->id)); ?>
+                </li>
+                <li class="active">
+                    <?php echo link_to_route('admin.workshops.signups.index', 'Inschrijvingen', array($workshop->id)); ?>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h1 class="panel-title">
+                        Inschrijvingen voor <?php echo e($workshop->title); ?>
+                        <span class="pull-right">
+                            <?php echo $workshop->signups->count(); ?> / <?php echo $workshop->max_signups; ?>
+                        </span>
+                    </h1>
+                </div>
+                <?php echo Form::open(array(
+                    'id' => 'signups-form',
+                    'route' => array('admin.workshops.signups.destroy', $workshop->id, 0),
+                    'method' => 'delete'
+                )); ?>
+                    <div class="table-responsive">
+                        <?php echo $__env->make('partials.back.signups', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+                    </div>
+                    <noscript class="clearfix">
+                        <?php echo Form::submit('Verwijder selectie', array(
+                            'class' => 'btn btn-danger pull-right'
+                        )); ?>
+                    </noscript>
+                <?php echo Form::close(); ?>
+            </div>
+        </div>
+    </div>
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('back.main', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

@@ -1,0 +1,57 @@
+
+<?php $__env->startSection('title'); ?>
+    Nieuwe gebruiker
+<?php $__env->stopSection(); ?>
+
+<?php $__env->startSection('content'); ?>
+    <?php echo $__env->make('partials.errors', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+
+    <?php echo Form::open(array(
+        'route' => 'admin.users.store',
+    )); ?>
+    <div class="row">
+        <div class="col-sm-6">
+            <div class="form-group">
+                <?php echo Form::label('firstname', 'Voornaam'); ?>
+                <?php echo Form::text('firstname', null, array(
+                    'class' => 'form-control',
+                    'maxlength' => 35,
+                    'required'
+                )); ?>
+            </div>
+        </div>
+        <div class="col-sm-6">
+            <div class="form-group">
+                <?php echo Form::label('lastname', 'Achternaam'); ?>
+                <?php echo Form::text('lastname', null, array(
+                    'class' => 'form-control',
+                    'maxlength' => 35,
+                    'required'
+                )); ?>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <?php echo Form::label('email', 'Email'); ?>
+        <?php echo Form::email('email', null, array(
+            'class' => 'form-control',
+            'maxlength' => 255,
+            'required'
+        )); ?>
+    </div>
+    <div class="form-group">
+        <?php echo Form::label('group_id', 'Groep'); ?>
+        <?php echo Form::select('group_id', $groups, null, array(
+            'class' => 'form-control',
+            'required'
+        )); ?>
+    </div>
+
+    <?php echo Form::submit('Maken', array(
+        'class' => 'btn btn-primary pull-right'
+    )); ?>
+
+    <?php echo Form::close(); ?>
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('back.main', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

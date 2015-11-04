@@ -1,0 +1,75 @@
+
+<?php $__env->startSection('title'); ?>
+    Overzicht
+<?php $__env->stopSection(); ?>
+
+<?php $__env->startSection('content'); ?>
+    <?php $today = new \Carbon\Carbon(); ?>
+
+    <div class="row">
+        <div class="col-xs-4">
+            <a href="<?php echo route('admin.news.create'); ?>" class="thumbnail text-center">
+                <span class="glyphicon glyphicon-bullhorn h1"></span>
+                <p class="h3 hidden-xs">Nieuw nieuwsbericht</p>
+            </a>
+        </div>
+        <div class="col-xs-4">
+            <a href="<?php echo route('admin.calls.create'); ?>" class="thumbnail text-center">
+                <span class="glyphicon glyphicon-warning-sign h1"></span>
+                <p class="h3 hidden-xs">Nieuwe oproep</p>
+            </a>
+        </div>
+        <div class="col-xs-4">
+            <a href="<?php echo route('admin.workshops.create'); ?>" class="thumbnail text-center">
+                <span class="glyphicon glyphicon-calendar h1"></span>
+                <p class="h3 hidden-xs">Nieuwe workshop</p>
+            </a>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <h1>
+                        Nieuws
+                        <?php echo link_to_route('admin.news.index', 'Meer&hellip;', null, array('class' => 'btn btn-default btn-sm pull-right')); ?>
+                    </h1>
+                </div>
+                <div class="table-responsive">
+                    <?php echo $__env->make('partials.back.news', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <h1>
+                        Oproepen
+                        <?php echo link_to_route('admin.calls.index', 'Meer&hellip;', null, array('class' => 'btn btn-default btn-sm pull-right')); ?>
+                    </h1>
+                </div>
+                <div class="table-responsive">
+                    <?php echo $__env->make('partials.back.calls', array('news' => $calls), array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <h1>
+                        Workshops
+                        <?php echo link_to_route('admin.news.index', 'Meer&hellip;', null, array('class' => 'btn btn-default btn-sm pull-right')); ?>
+                    </h1>
+                </div>
+                <div class="table-responsive">
+                    <?php echo $__env->make('partials.back.workshops', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+                </div>
+            </div>
+        </div>
+    </div>
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('back.main', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

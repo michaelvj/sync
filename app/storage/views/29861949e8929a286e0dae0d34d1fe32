@@ -1,0 +1,30 @@
+<table class="table">
+    <thead>
+        <tr>
+            <th>Stamnummer</th>
+            <th>Voornaam</th>
+            <th>Achternaam</th>
+            <th>Email</th>
+            <th class="text-center">
+                <input class="toggle-all" type="checkbox" />
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        <?php foreach($workshop->signups as $item): ?>
+            <tr>
+                <td><?php echo e($item->student_number); ?></td>
+                <td><?php echo e($item->firstname); ?></td>
+                <td><?php echo e($item->lastname); ?></td>
+                <td>
+                    <a href="mailto:<?php echo e($item->email); ?>">
+                        <?php echo e($item->email); ?>
+                    </a>
+                </td>
+                <td class="text-center">
+                    <?php echo Form::checkbox('signup[]', $item->id); ?>
+                </td>
+            </tr>
+        <?php endforeach; ?>
+    </tbody>
+</table>

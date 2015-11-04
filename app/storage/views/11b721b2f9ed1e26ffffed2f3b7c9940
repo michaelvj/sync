@@ -1,0 +1,187 @@
+
+<?php $__env->startSection('title'); ?>
+    <?php echo e($workshop->title); ?>
+<?php $__env->stopSection(); ?>
+
+<?php $__env->startSection('content'); ?>
+    <?php $now = new \Carbon\Carbon(); ?>
+
+    <div class="row">
+        <div class="col-md-8">
+            <article class="panel content">
+                <h1>
+                    <?php echo link_to_route('news', $workshop->title, array($workshop->id, $workshop->webTitle)); ?>
+                </h1>
+                <div class="meta">
+                    <p>
+                        Door
+                        <b>
+                            <?php echo e($workshop->user->firstname); ?> <?php echo e($workshop->user->lastname); ?>
+                        </b>
+                        op
+                        <b><?php echo $workshop->shows_at->formatLocalized('%d %B, %H:%M'); ?></b>.
+                        <?php if($workshop->updated_at->gt($workshop->shows_at)): ?>
+                            Laatst bijgewerkt op
+                            <b><?php echo $workshop->updated_at->formatLocalized('%d %B, %H:%M'); ?></b>.
+                        <?php endif; ?>
+                    </p>
+                    <div class="row">
+                        <div class="col-sm-6 media">
+                            <span class="glyphicon glyphicon-calendar pull-left"></span>
+                            <div class="media-body">
+                                <?php echo $workshop->begins_at->formatLocalized('%d %B, %H:%M'); ?>
+                                &ndash;
+                                <?php echo $workshop->ends_at->formatLocalized('%d %B, %H:%M'); ?>
+                            </div>
+                        </div>
+                        <div class="col-sm-6 media">
+                            <span class="glyphicon glyphicon-map-marker pull-left"></span>
+                            <div class="media-body">
+                                <?php echo e($workshop->location); ?>
+                            </div>
+                        </div>
+                        <div class="col-sm-6 media">
+                            <span class="glyphicon glyphicon-user pull-left"></span>
+                            <div class="media-body">
+                                <?php echo e($workshop->teacher_name); ?>
+                            </div>
+                        </div>
+                        <div class="col-sm-6 media">
+                            <span class="glyphicon glyphicon-stats pull-left"></span>
+                            <div class="media-body">
+                                <?php echo count($workshop->signups); ?>
+                                /
+                                <?php echo e($workshop->max_signups); ?>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <?php if($workshop->expires_at !== null && $workshop->expires_at->lte($now)): ?>
+                    <div class="alert alert-danger alert-dismissable">
+                        <button type="button" class="close" data-dismiss="alert">&times;</button>
+                        Dit bericht is niet meer geldig.
+                    </div>
+                <?php endif; ?>
+                <p class="text-center">
+                    <a href="#signup" data-toggle="offcanvas" class="btn btn-primary">Inschrijven</a>
+                </p>
+                <p class="clearfix">
+                    <?php if($workshop->featured_image && $workshop->featured_visible): ?>
+                        <a title="Volledige grootte" class="side-image" target="_blank" href="/assets/uploads/<?php echo $workshop->featured_image; ?>">
+                            <img src="/assets/uploads/<?php echo $workshop->featured_image; ?>" alt="Featured image" />
+                        </a>
+                    <?php endif; ?>
+                    <?php echo $workshop->text; ?>
+                </p>
+            </article>
+            <section id="signup" class="panel panel-default offcanvas">
+                <div class="panel-body">
+                    <h1 class="page-header">
+                        Inschrijven
+                        <button class="close" data-dismiss="offcanvas">&times;</button>
+                    </h1>
+
+                    <?php echo $__env->make('partials.errors', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+
+                    <?php if(Cookie::has($workshop->webTitle)): ?>
+                    <div class="alert alert-info alert-dismissable">
+                        <button type="button" class="close" data-dismiss="alert">&times;</button>
+                        Je bent ingeschreven met email-adres <b><?php echo Cookie::get($workshop->webTitle); ?></b>.
+                    </div>
+                    <?php endif; ?>
+
+                    <?php if($workshop->begins_at->lte($now)): ?>
+                        <div class="alert alert-danger alert-dismissable">
+                            <button type="button" class="close" data-dismiss="alert">&times;</button>
+                            Deze workshop is al geweest.
+                        </div>
+                    <?php elseif(count($workshop->signups) == $workshop->max_signups): ?>
+                        <div class="alert alert-danger alert-dismissable">
+                            <button type="button" class="close" data-dismiss="alert">&times;</button>
+                            Deze workshop is vol.
+                        </div>
+                    <?php else: ?>
+                        <form action="<?php echo route('workshops', array($workshop->id, $workshop->webTitle)); ?>#signup" method="post">
+                            <?php echo Form::token(); ?>
+                            <div class="form-group">
+                                <?php echo Form::label('student_number', 'Stamnummer'); ?>
+                                <?php echo Form::input('number', 'student_number', null, array(
+                                    'class' => 'form-control',
+                                    'placeholder' => 'Stamnummer',
+                                    'required'
+                                )); ?>
+                            </div>
+                            <div class="row">
+                                <div class="form-group col-sm-6">
+                                    <?php echo Form::label('firstname', 'Voornaam'); ?>
+                                    <?php echo Form::text('firstname', null, array(
+                                        'class' => 'form-control',
+                                        'placeholder' => 'Voornaam',
+                                        'maxlength' => 35,
+                                        'required'
+                                    )); ?>
+                                </div>
+                                <div class="form-group col-sm-6">
+                                    <?php echo Form::label('lastname', 'Achternaam'); ?>
+                                    <?php echo Form::text('lastname', null, array(
+                                        'class' => 'form-control',
+                                        'placeholder' => 'Achternaam',
+                                        'maxlength' => 35,
+                                        'required'
+                                    )); ?>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <?php echo Form::label('email', 'Email'); ?>
+                                <?php echo Form::email('email', null, array(
+                                    'class' => 'form-control',
+                                    'placeholder' => 'Email',
+                                    'maxlength' => 255,
+                                    'required'
+                                )); ?>
+                            </div>
+                            <div class="pull-right">
+                                <?php echo Form::button('Annuleren', array(
+                                    'class' => 'btn btn-link',
+                                    'data-dismiss' => 'offcanvas'
+                                )); ?>
+                                <?php echo Form::submit('Inschrijven', array(
+                                    'class' => 'btn btn-primary'
+                                )); ?>
+                            </div>
+                        <?php echo Form::close(); ?>
+                    <?php endif; ?>
+                </div>
+            </section>
+        </div>
+
+        <aside class="sidebar col-md-4">
+
+            <div id="going" class="panel panel-default">
+                <div class="panel-heading">
+                    Inschrijvingen
+                    <span class="pull-right">
+                        <?php echo count($workshop->signups); ?>
+                        /
+                        <?php echo $workshop->max_signups; ?>
+                    </span>
+                </div>
+                <div class="list-group">
+                    <div class="list-group-item">
+                        <div class="progress progress-striped">
+                            <div class="progress-bar" style="width: <?php echo count($workshop->signups) / $workshop->max_signups * 100; ?>%;"></div>
+                        </div>
+                    </div>
+                    <?php foreach($workshop->signups as $item): ?>
+                        <p class="list-group-item">
+                            <?php echo $item->firstname; ?>
+                            <?php echo $item->lastname; ?>
+                        </p>
+                    <?php endforeach; ?>
+                </div>
+            </div>
+            <?php echo $__env->make('partials.front.sidebar', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+        </aside>
+    </div>
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('front.main', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

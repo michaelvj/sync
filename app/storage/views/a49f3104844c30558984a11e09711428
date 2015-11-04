@@ -1,0 +1,39 @@
+
+<?php $__env->startSection('title'); ?>
+    <?php if(Request::segment(2) === 'calls'): ?>
+        Oproepen
+    <?php else: ?>
+        Nieuws
+    <?php endif; ?>
+<?php $__env->stopSection(); ?>
+
+<?php $__env->startSection('topnav'); ?>
+    <a href="<?php echo route('admin.news.create'); ?>" class="btn btn-default navbar-btn">
+        <span class="glyphicon glyphicon-bullhorn"></span>
+        Nieuw nieuwsbericht
+    </a>
+<?php $__env->stopSection(); ?>
+
+<?php $__env->startSection('content'); ?>
+    <?php $today = new \Carbon\Carbon(); ?>
+
+    <?php echo $__env->make('partials.errors', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <h1>
+                        <?php echo $__env->yieldContent('title'); ?>
+                    </h1>
+                </div>
+                <div class="table-responsive">
+                    <?php echo $__env->make('partials.back.news', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+                </div>
+                <div class="panel-body text-center">
+                    <?php echo $news->links(); ?>
+                </div>
+            </div>
+        </div>
+    </div>
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('back.main', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
