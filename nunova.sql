@@ -263,9 +263,7 @@ INSERT INTO `users` (`id`, `firstname`, `lastname`, `email`, `password`, `delete
 (1, 'bla', 'bla', 'bla', '', '2014-09-11 07:24:49', 1, '', ''),
 (2, 'Tom', 'Hooijenga', 'tomhooijenga@gmail.com', '$2a$10$I6JS3IF2ZHEcvcybT.kcT.ddY4lEJ5tXxbZrRWtoPweB72NH5.7Uq', NULL, 1, NULL, NULL),
 (11, 'Sander', 'Boelsma', 'sboelsma@me.com', '$2a$10$VXmrgznxUsjhGLi6exErYOHMQZzt7Vd3Ua29Ayt9YcwmD7VrpH7dO', NULL, 1, 'FXg94QKQ9pybp7AmjaTtZjtAcz8s9xHVAidR3eHBrqGuvdVGlnAP3jQu6qYu', NULL),
-(13, 'Test', 'Test', 'test@test.nl', '$2a$10$BAQ8LB3Yi5.HOl9EMv1eceid8CpAQJggtvixARb6/lwDA0gqkfIbK', '2014-09-17 09:11:22', 1, NULL, NULL),
-(14, 'Contentmanager', 'Sync', 'sync@studiesoft.com', '$2a$10$BAQ8LB3Yi5.HOl9EMv1eceid8CpAQJggtvixARb6/lwDA0gqkfIbK', NULL, 2, 'IT1uR5T5wmRHdnklolrLDK9DuviW6B1DiK5mUkKVS3e5OMwFiZh7w3tHMxeR', NULL),
-(15, 'test', 'account', 'sander@studiesoft.com', '$2y$10$tQ/xhj4fETArn4bsvB7fCe4jtOhZmMEx/Or3aE1Voz71cG.Hjalz2', NULL, 1, NULL, NULL);
+(13, 'Test', 'Test', 'test@test.nl', '$2y$10$Gen6BqxTQRnJmRR2rOK96O8WCdVIAq.jDWb8rxa6T2y.CAbxxZK6.', NULL, 1, NULL, NULL),
 
 -- --------------------------------------------------------
 

@@ -15,12 +15,6 @@
  * Require Authentication
  * Starts with /admin
  */
-
-Route::get('/pass',  function(){
-     return Crypt::decrypt('$2y$10$tQ/xhj4fETArn4bsvB7fCe4jtOhZmMEx/Or3aE1Voz71cG.Hjalz2');
-});
-
-
 Route::group(array('before' => 'auth', 'prefix' => 'admin'), function ()
 {
     // Main admin panel
