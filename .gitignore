@@ -1,5 +1,5 @@
 /bootstrap/compiled.php
-/app/storage/*
+/app/storage
 /vendor
 /public/storage
 composer.phar
