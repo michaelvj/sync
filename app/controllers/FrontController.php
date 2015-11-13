@@ -18,10 +18,10 @@ class FrontController extends BaseController {
         $featured_news = News::visible()
             ->where('is_screen', '=', true)
             ->featured()
-            ->orderBy('shows_at', 'desc')            
+            ->orderBy('shows_at', 'desc')
             ->take(1)
             ->get();
-        
+
         $featured_workshop = Workshop::visible()
             ->where('is_screen', '=', true)
             ->featured()
@@ -29,25 +29,25 @@ class FrontController extends BaseController {
             ->take(2)
             ->get()
             ->sortBy('begins_at');
-        
+
         if (count($featured_workshop) == 0 && count($featured_news) > 0)
         {
             $featured = News::visible()
                 ->where('is_screen', '=', true)
                 ->featured()
-                ->orderBy('shows_at', 'desc')            
+                ->orderBy('shows_at', 'desc')
                 ->take(2)
                 ->get();
         }
-        elseif (count($featured_workshop) == 1 && count($featured_news) > 0) 
+        elseif (count($featured_workshop) == 1 && count($featured_news) > 0)
         {
             if ($featured_news[0]->created_at > $featured_workshop[0]->created_at)
                 $featured = array($featured_news[0], $featured_workshop[0]);
             else
-                $featured = array($featured_workshop[0], $featured_news[0]);                
-        } 
+                $featured = array($featured_workshop[0], $featured_news[0]);
+        }
         elseif (count($featured_workshop) >= 2 && count($featured_news) > 0)
-        {            
+        {
             if ($featured_news[0]->created_at > $featured_workshop[0]->created_at)
                 $featured = array($featured_news[0], $featured_workshop[0]);
             elseif ($featured_news[0]->created_at > $featured_workshop[1]->created_at)
@@ -65,7 +65,7 @@ class FrontController extends BaseController {
                                 ->where('category_id', '=', 1)
                                 ->take(3)->get(),
             'workshops' => Workshop::visible()
-                                ->orderBy('begins_at', 'desc')
+                                ->orderBy('begins_at', 'asc')
                                 ->take(12)
                                 ->get(),
             'notes'     => News::visible()
@@ -179,7 +179,7 @@ class FrontController extends BaseController {
                                     ->get(),
                 'items' => Workshop::with('user')
                                     ->visible()
-                                    ->orderBy('begins_at', 'desc')
+                                    ->orderBy('ends_at', 'asc')
                                     ->paginate(12)
             ));
         }
@@ -289,10 +289,10 @@ class FrontController extends BaseController {
         $featured_news = News::visible()
             ->where('is_screen', '=', true)
             ->featured()
-            ->orderBy('shows_at', 'desc')            
+            ->orderBy('shows_at', 'desc')
             ->take(1)
             ->get();
-        
+
         $featured_workshop = Workshop::visible()
             ->where('is_screen', '=', true)
             ->featured()
@@ -300,25 +300,25 @@ class FrontController extends BaseController {
             ->take(2)
             ->get()
             ->sortBy('begins_at');
-        
+
         if (count($featured_workshop) == 0 && count($featured_news) > 0)
         {
             $featured = News::visible()
                 ->where('is_screen', '=', true)
                 ->featured()
-                ->orderBy('shows_at', 'desc')            
+                ->orderBy('shows_at', 'desc')
                 ->take(2)
                 ->get();
         }
-        elseif (count($featured_workshop) == 1 && count($featured_news) > 0) 
+        elseif (count($featured_workshop) == 1 && count($featured_news) > 0)
         {
             if ($featured_news[0]->created_at > $featured_workshop[0]->created_at)
                 $featured = array($featured_news[0], $featured_workshop[0]);
             else
-                $featured = array($featured_workshop[0], $featured_news[0]);                
-        } 
+                $featured = array($featured_workshop[0], $featured_news[0]);
+        }
         elseif (count($featured_workshop) >= 2 && count($featured_news) > 0)
-        {            
+        {
             if ($featured_news[0]->created_at > $featured_workshop[0]->created_at)
                 $featured = array($featured_news[0], $featured_workshop[0]);
             elseif ($featured_news[0]->created_at > $featured_workshop[1]->created_at)
